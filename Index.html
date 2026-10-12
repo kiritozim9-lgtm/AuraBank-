@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#6d28d9">
+<title>Aura Bank</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#f5f3ff;color:#201735;font-family:Arial,sans-serif}
+header{background:#6d28d9;color:white;padding:25px 22px 35px;border-radius:0 0 28px 28px}
+.brand{font-size:23px;font-weight:bold}
+.greeting{margin-top:28px;font-size:14px;opacity:.85}
+.balance{font-size:34px;font-weight:bold;margin:12px 0}
+button{border:0;cursor:pointer;font-size:15px}
+.hide{background:#ffffff25;color:white;border-radius:10px;padding:9px 14px}
+main{padding:22px}
+h2{font-size:18px}
+.actions{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:18px 0 28px}
+.action{background:white;padding:15px 4px;border-radius:17px;text-align:center;box-shadow:0 4px 15px #3020500b}
+.action button{background:none;color:#6d28d9;font-size:25px}
+.action p{font-size:12px;margin:9px 0 0}
+.card{background:white;padding:18px;border-radius:18px;margin:12px 0;box-shadow:0 4px 18px #3020500b}
+.transaction{display:flex;justify-content:space-between;gap:10px;padding:15px 0;border-bottom:1px solid #eee}
+.transaction:last-child{border:0}
+.muted{color:#817990;font-size:13px}
+nav{position:fixed;bottom:0;left:0;right:0;background:white;display:flex;justify-content:space-around;padding:13px 4px calc(13px + env(safe-area-inset-bottom));box-shadow:0 -4px 20px #30205010}
+nav button{background:none;color:#817990;font-size:12px}
+nav button.active{color:#6d28d9;font-weight:bold}
+main{padding-bottom:95px}
+body.dark{background:#171321;color:#f5f3ff}
+body.dark .card,body.dark .action,body.dark nav{background:#272135;color:white}
+body.dark .transaction{border-color:#40384e}
+body.dark .muted{color:#c0b6d0}
+</style>
+</head>
+<body>
+<header>
+<div class="brand">✦ Aura Bank</div>
+<div class="greeting">Saldo disponível · CONTA DE TESTE</div>
+<div class="balance" id="balance">R$ 1.250,00</div>
+<button class="hide" onclick="toggleBalance()">◉ Ocultar saldo</button>
+</header>
+<main>
+<section id="home">
+<h2>O que você precisa?</h2>
+<div class="actions">
+<div class="action"><button onclick="showPage('pix')">↗</button><p>Pix</p></div>
+<div class="action"><button onclick="showPage('pix')">▦</button><p>Pagar</p></div>
+<div class="action"><button onclick="showPage('cards')">▣</button><p>Cartões</p></div>
+<div class="action"><button onclick="showPage('profile')">♙</button><p>Perfil</p></div>
+</div>
+<h2>Últimas movimentações</h2>
+<div class="card" id="transactions">
+<div class="transaction"><div>💼<br><span>Saldo inicial de teste</span><div class="muted">Demonstrativo</div></div><strong>R$ 1.250,00</strong></div>
+</div>
+<p class="muted">Demonstração: nenhum dinheiro real é movimentado.</p>
+</section>
+<section id="pix" hidden>
+<h2>Área Pix</h2>
+<div class="card">
+<p>Faça uma simulação de transferência.</p>
+<label>Chave Pix de teste</label>
+<input id="key" placeholder="exemplo@teste.com" style="width:100%;padding:13px;margin:10px 0;border:1px solid #ddd;border-radius:10px">
+<label>Valor (R$)</label>
+<input id="amount" type="number" min="0.01" step="0.01" placeholder="0,00" style="width:100%;padding:13px;margin:10px 0;border:1px solid #ddd;border-radius:10px">
+<button onclick="simulatePix()" style="background:#6d28d9;color:white;padding:14px;border-radius:12px;width:100%">Simular Pix</button>
+<p class="muted">Não envia Pix real. Não use dados bancários verdadeiros.</p>
+<div id="pixResult"></div>
+</div>
+</section>
+<section id="cards" hidden>
+<h2>Meus cartões</h2>
+<div class="card" style="background:linear-gradient(135deg,#6d28d9,#241044);color:white">
+✦ AURA BANK<br><br>•••• &nbsp; •••• &nbsp; •••• &nbsp; 2026<br><br>CLIENTE DE TESTE
+</div>
+<p class="muted">Cartão ilustrativo, sem função de pagamento.</p>
+</section>
+<section id="profile" hidden>
+<h2>Meu perfil</h2>
+<div class="card">Cliente Aura<br><p class="muted">Conta demonstrativa</p></div>
+<button onclick="document.body.classList.toggle('dark')" style="padding:13px;border-radius:10px;background:#6d28d9;color:white">Alternar tema claro/escuro</button>
+</section>
+</main>
+<nav>
+<button class="active" onclick="showPage('home',this)">⌂<br>Início</button>
+<button onclick="showPage('pix',this)">↗<br>Pix</button>
+<button onclick="showPage('cards',this)">▣<br>Cartões</button>
+<button onclick="showPage('profile',this)">♙<br>Perfil</button>
+</nav>
+<script>
+let visible=true;
+function toggleBalance(){
+visible=!visible;
+document.getElementById('balance').textContent=visible?'R$ 1.250,00':'••••••';
+document.querySelector('.hide').textContent=visible?'◉ Ocultar saldo':'◉ Revelar saldo';
+}
+function showPage(page,btn){
+['home','pix','cards','profile'].forEach(id=>document.getElementById(id).hidden=id!==page);
+document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
+if(btn)btn.classList.add('active');
+else document.querySelectorAll('nav button')[page==='pix'?1:page==='cards'?2:page==='profile'?3:0].classList.add('active');
+window.scrollTo(0,0);
+}
+function simulatePix(){
+let key=document.getElementById('key').value.trim();
+let amount=Number(document.getElementById('amount').value);
+let result=document.getElementById('pixResult');
+if(!key||!Number.isFinite(amount)||amount<=0){
+result.textContent='Informe uma chave de teste e um valor válido.';
+return;
+}
+result.textContent='SIMULAÇÃO: Pix de R$ '+amount.toFixed(2).replace('.',',')+' para '+key+'. Nenhum pagamento foi realizado.';
+}
+</script>
+</body>
+  </html>
