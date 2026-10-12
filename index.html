@@ -1,117 +1,290 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#6d28d9">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Aura Bank</title>
 <style>
 *{box-sizing:border-box}
-body{margin:0;background:#f5f3ff;color:#201735;font-family:Arial,sans-serif}
-header{background:#6d28d9;color:white;padding:25px 22px 35px;border-radius:0 0 28px 28px}
-.brand{font-size:23px;font-weight:bold}
-.greeting{margin-top:28px;font-size:14px;opacity:.85}
-.balance{font-size:34px;font-weight:bold;margin:12px 0}
-button{border:0;cursor:pointer;font-size:15px}
-.hide{background:#ffffff25;color:white;border-radius:10px;padding:9px 14px}
-main{padding:22px}
-h2{font-size:18px}
-.actions{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:18px 0 28px}
-.action{background:white;padding:15px 4px;border-radius:17px;text-align:center;box-shadow:0 4px 15px #3020500b}
-.action button{background:none;color:#6d28d9;font-size:25px}
-.action p{font-size:12px;margin:9px 0 0}
-.card{background:white;padding:18px;border-radius:18px;margin:12px 0;box-shadow:0 4px 18px #3020500b}
-.transaction{display:flex;justify-content:space-between;gap:10px;padding:15px 0;border-bottom:1px solid #eee}
-.transaction:last-child{border:0}
-.muted{color:#817990;font-size:13px}
-nav{position:fixed;bottom:0;left:0;right:0;background:white;display:flex;justify-content:space-around;padding:13px 4px calc(13px + env(safe-area-inset-bottom));box-shadow:0 -4px 20px #30205010}
-nav button{background:none;color:#817990;font-size:12px}
-nav button.active{color:#6d28d9;font-weight:bold}
-main{padding-bottom:95px}
-body.dark{background:#171321;color:#f5f3ff}
-body.dark .card,body.dark .action,body.dark nav{background:#272135;color:white}
-body.dark .transaction{border-color:#40384e}
-body.dark .muted{color:#c0b6d0}
+body{margin:0;background:#f5f3ff;color:#241b35;font-family:Arial,sans-serif}
+header{background:linear-gradient(135deg,#6d28d9,#4c1d95);color:white;padding:25px;border-radius:0 0 24px 24px}
+.brand{font-size:25px;font-weight:bold}
+main{max-width:520px;margin:auto;padding:20px}
+.card{background:white;padding:20px;border-radius:18px;box-shadow:0 4px 18px #0000000c}
+h2{font-size:21px}
+label{display:block;font-size:14px;font-weight:bold;margin-top:17px}
+input{width:100%;padding:14px;margin-top:8px;border:1px solid #ddd;border-radius:10px;font-size:16px}
+button{width:100%;padding:14px;border:0;border-radius:10px;font-size:15px;font-weight:bold;margin-top:15px;cursor:pointer}
+.primary{background:#6d28d9;color:white}
+.secondary{background:#ede9fe;color:#5b21b6}
+.notice{background:#fef3c7;color:#854d0e;padding:12px;border-radius:9px;font-size:12px;line-height:1.5;margin-top:16px}
+.hidden{display:none!important}
+#receipt{background:white;padding:20px;border:1px solid #eee;border-radius:15px;margin-top:20px;overflow-wrap:anywhere}
+.center{text-align:center}
+.purple{color:#6d28d9}
+.amount{font-size:30px;font-weight:bold;margin:15px 0}
+.detail{margin:18px 0}
+.detail small{display:block;color:#777;margin-bottom:6px}
+.tag{font-size:11px;font-weight:bold;color:#854d0e;background:#fef3c7;padding:8px;border-radius:7px;display:inline-block}
+footer{text-align:center;color:#888;font-size:12px;padding:25px}
 </style>
 </head>
 <body>
+
 <header>
-<div class="brand">✦ Aura Bank</div>
-<div class="greeting">Saldo disponível · CONTA DE TESTE</div>
-<div class="balance" id="balance">R$ 1.250,00</div>
-<button class="hide" onclick="toggleBalance()">◉ Ocultar saldo</button>
+  <div class="brand">✦ aura bank</div>
+  <p>Bem-vindo(a) ao seu banco demonstrativo.</p>
+  <small>Saldo de demonstração</small>
+  <div style="font-size:30px;font-weight:bold;margin-top:8px">R$ 2.500,00</div>
 </header>
+
 <main>
-<section id="home">
-<h2>O que você precisa?</h2>
-<div class="actions">
-<div class="action"><button onclick="showPage('pix')">↗</button><p>Pix</p></div>
-<div class="action"><button onclick="showPage('pix')">▦</button><p>Pagar</p></div>
-<div class="action"><button onclick="showPage('cards')">▣</button><p>Cartões</p></div>
-<div class="action"><button onclick="showPage('profile')">♙</button><p>Perfil</p></div>
-</div>
-<h2>Últimas movimentações</h2>
-<div class="card" id="transactions">
-<div class="transaction"><div>💼<br><span>Saldo inicial de teste</span><div class="muted">Demonstrativo</div></div><strong>R$ 1.250,00</strong></div>
-</div>
-<p class="muted">Demonstração: nenhum dinheiro real é movimentado.</p>
-</section>
-<section id="pix" hidden>
-<h2>Área Pix</h2>
-<div class="card">
-<p>Faça uma simulação de transferência.</p>
-<label>Chave Pix de teste</label>
-<input id="key" placeholder="exemplo@teste.com" style="width:100%;padding:13px;margin:10px 0;border:1px solid #ddd;border-radius:10px">
-<label>Valor (R$)</label>
-<input id="amount" type="number" min="0.01" step="0.01" placeholder="0,00" style="width:100%;padding:13px;margin:10px 0;border:1px solid #ddd;border-radius:10px">
-<button onclick="simulatePix()" style="background:#6d28d9;color:white;padding:14px;border-radius:12px;width:100%">Simular Pix</button>
-<p class="muted">Não envia Pix real. Não use dados bancários verdadeiros.</p>
-<div id="pixResult"></div>
-</div>
-</section>
-<section id="cards" hidden>
-<h2>Meus cartões</h2>
-<div class="card" style="background:linear-gradient(135deg,#6d28d9,#241044);color:white">
-✦ AURA BANK<br><br>•••• &nbsp; •••• &nbsp; •••• &nbsp; 2026<br><br>CLIENTE DE TESTE
-</div>
-<p class="muted">Cartão ilustrativo, sem função de pagamento.</p>
-</section>
-<section id="profile" hidden>
-<h2>Meu perfil</h2>
-<div class="card">Cliente Aura<br><p class="muted">Conta demonstrativa</p></div>
-<button onclick="document.body.classList.toggle('dark')" style="padding:13px;border-radius:10px;background:#6d28d9;color:white">Alternar tema claro/escuro</button>
-</section>
+  <section class="card">
+    <h2>Enviar Pix</h2>
+    <p style="color:#777;font-size:13px">
+      Preencha os dados para gerar um comprovante ilustrativo.
+    </p>
+
+    <form id="pixForm">
+      <label for="recipient">Nome do destinatário</label>
+      <input id="recipient" type="text" maxlength="100"
+        placeholder="Ex.: Ana Souza" required>
+
+      <label for="pixKey">Chave Pix (opcional)</label>
+      <input id="pixKey" type="text" maxlength="150"
+        placeholder="Chave de exemplo">
+
+      <label for="amount">Valor em reais</label>
+      <input id="amount" type="number" min="0.01"
+        max="1000000" step="0.01" placeholder="25.50" required>
+
+      <button class="primary" type="submit">
+        Gerar comprovante
+      </button>
+    </form>
+
+    <!-- >>> AVISO DE SIMULAÇÃO NA TELA DO FORMULÁRIO <<< -->
+    <div class="notice">
+      <strong>SIMULAÇÃO • SEM VALOR FINANCEIRO</strong><br>
+      Nenhuma transferência real será realizada.
+    </div>
+  </section>
+
+  <section id="receiptSection" class="hidden">
+    <h2>Comprovante</h2>
+
+    <div id="receipt">
+      <div class="center purple" style="font-size:24px;font-weight:bold">
+        ✦ aura bank
+      </div>
+
+      <p class="center purple" style="font-weight:bold">
+        Comprovante Pix
+      </p>
+
+      <div class="center amount" id="outAmount">R$ 0,00</div>
+      <p class="center" style="font-size:12px;color:#777">
+        Valor informado para simulação
+      </p>
+
+      <hr style="border:0;border-top:1px solid #eee">
+
+      <div class="detail">
+        <small>Destinatário</small>
+        <strong id="outRecipient"></strong>
+      </div>
+
+      <div class="detail">
+        <small>Chave Pix informada</small>
+        <strong id="outKey"></strong>
+      </div>
+
+      <div class="detail">
+        <small>Data e hora da simulação</small>
+        <strong id="outDate"></strong>
+      </div>
+
+      <div class="detail">
+        <small>Identificação</small>
+        <strong id="outId"></strong>
+      </div>
+
+      <!-- >>> AVISO QUE APARECE NO COMPROVANTE DA TELA <<< -->
+      <div class="center" style="margin-top:22px">
+        <span class="tag">SIMULAÇÃO • SEM VALOR FINANCEIRO</span>
+      </div>
+
+      <p class="center" style="font-size:12px;color:#777;line-height:1.5">
+        Este documento registra uma simulação visual.
+        Não confirma pagamento, envio ou recebimento de dinheiro.
+      </p>
+    </div>
+
+    <button class="primary" id="downloadButton" type="button">
+      Baixar comprovante em PNG
+    </button>
+
+    <button class="secondary" id="printButton" type="button">
+      Imprimir / Salvar em PDF
+    </button>
+
+    <button class="secondary" id="newButton" type="button">
+      Nova simulação
+    </button>
+  </section>
+
+  <p id="status" role="status" style="font-size:13px"></p>
 </main>
-<nav>
-<button class="active" onclick="showPage('home',this)">⌂<br>Início</button>
-<button onclick="showPage('pix',this)">↗<br>Pix</button>
-<button onclick="showPage('cards',this)">▣<br>Cartões</button>
-<button onclick="showPage('profile',this)">♙<br>Perfil</button>
-</nav>
+
+<footer>Nu Pagamentos S.A - Instituição de Pagamentos</footer>
+
 <script>
-let visible=true;
-function toggleBalance(){
-visible=!visible;
-document.getElementById('balance').textContent=visible?'R$ 1.250,00':'••••••';
-document.querySelector('.hide').textContent=visible?'◉ Ocultar saldo':'◉ Revelar saldo';
-}
-function showPage(page,btn){
-['home','pix','cards','profile'].forEach(id=>document.getElementById(id).hidden=id!==page);
-document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
-if(btn)btn.classList.add('active');
-else document.querySelectorAll('nav button')[page==='pix'?1:page==='cards'?2:page==='profile'?3:0].classList.add('active');
-window.scrollTo(0,0);
-}
-function simulatePix(){
-let key=document.getElementById('key').value.trim();
-let amount=Number(document.getElementById('amount').value);
-let result=document.getElementById('pixResult');
-if(!key||!Number.isFinite(amount)||amount<=0){
-result.textContent='Informe uma chave de teste e um valor válido.';
-return;
-}
-result.textContent='SIMULAÇÃO: Pix de R$ '+amount.toFixed(2).replace('.',',')+' para '+key+'. Nenhum pagamento foi realizado.';
-}
+(function(){
+  const form = document.getElementById('pixForm');
+  const receiptSection = document.getElementById('receiptSection');
+  const status = document.getElementById('status');
+
+  let data = null;
+
+  // >>> FUNÇÃO QUE GERA O COMPROVANTE NA TELA <<<
+  form.addEventListener('submit', function(event){
+    event.preventDefault();
+
+    const recipient = document.getElementById('recipient').value.trim();
+    const key = document.getElementById('pixKey').value.trim();
+    const amount = Number(document.getElementById('amount').value);
+
+    if(!recipient || !Number.isFinite(amount) ||
+       amount < 0.01 || amount > 1000000){
+      status.textContent = 'Confira o nome e o valor informado.';
+      return;
+    }
+
+    const now = new Date();
+
+    data = {
+      recipient: recipient,
+      key: key || 'Não informada',
+      amount: amount.toLocaleString('pt-BR',{
+        style:'currency', currency:'BRL'
+      }),
+      date: now.toLocaleString('pt-BR'),
+      id: 'DEMO-' + now.getTime().toString(36).toUpperCase()
+    };
+
+    document.getElementById('outRecipient').textContent = data.recipient;
+    document.getElementById('outKey').textContent = data.key;
+    document.getElementById('outAmount').textContent = data.amount;
+    document.getElementById('outDate').textContent = data.date;
+    document.getElementById('outId').textContent = data.id;
+
+    receiptSection.classList.remove('hidden');
+    status.textContent = 'Comprovante de simulação gerado na tela.';
+    receiptSection.scrollIntoView({behavior:'smooth', block:'start'});
+  });
+
+  // >>> FUNÇÃO QUE CRIA A IMAGEM PNG DO COMPROVANTE <<<
+  document.getElementById('downloadButton').addEventListener('click', function(){
+    if(!data){
+      status.textContent = 'Primeiro, gere o comprovante.';
+      return;
+    }
+
+    try {
+      const canvas = document.createElement('canvas');
+      canvas.width = 900;
+      canvas.height = 1050;
+      const ctx = canvas.getContext('2d');
+
+      ctx.fillStyle = '#f5f3ff';
+      ctx.fillRect(0,0,900,1050);
+
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(40,35,820,980);
+
+      ctx.fillStyle = '#6d28d9';
+      ctx.fillRect(40,35,820,150);
+
+      ctx.textAlign = 'center';
+      ctx.fillStyle = '#ffffff';
+      ctx.font = 'bold 38px Arial';
+      ctx.fillText('✦ Nubank',450,95);
+      ctx.font = '21px Arial';
+      ctx.fillText('COMPROVANTE PIX',450,140);
+
+      // >>> AVISO DE SIMULAÇÃO NA IMAGEM PNG <<<
+      ctx.fillStyle = '#fef3c7';
+      ctx.fillRect(80,210,740,65);
+      ctx.fillStyle = '#854d0e';
+      ctx.font = 'bold 23px Arial';
+      ctx.fillText('',450,250);
+
+      ctx.fillStyle = '#6d28d9';
+      ctx.font = 'bold 48px Arial';
+      ctx.fillText(data.amount,450,355);
+
+      ctx.strokeStyle = '#e5e0ed';
+      ctx.beginPath();
+      ctx.moveTo(90,395);
+      ctx.lineTo(810,395);
+      ctx.stroke();
+
+      function drawField(label,value,y){
+        ctx.textAlign = 'left';
+        ctx.fillStyle = '#777777';
+        ctx.font = '19px Arial';
+        ctx.fillText(label,95,y);
+        ctx.fillStyle = '#241b35';
+        ctx.font = 'bold 23px Arial';
+
+        let text = String(value);
+        while(ctx.measureText(text).width > 700 && text.length > 8){
+          text = text.slice(0,-4) + '...';
+        }
+        ctx.fillText(text,95,y+35);
+      }
+
+      drawField('DESTINATÁRIO',data.recipient,455);
+      drawField('CHAVE PIX INFORMADA',data.key,570);
+      drawField('DATA E HORA DA SIMULAÇÃO',data.date,685);
+      drawField('IDENTIFICAÇÃO',data.id,800);
+
+      ctx.textAlign = 'center';
+      ctx.fillStyle = '#fef3c7';
+      ctx.fillRect(80,875,740,95);
+      ctx.fillStyle = '#854d0e';
+      ctx.font = 'bold 19px Arial';
+      ctx.fillText('',450,912);
+      ctx.font = '17px Arial';
+      ctx.fillText('Não comprova transferência de dinheiro.',450,943);
+
+      const link = document.createElement('a');
+      link.download = 'aura-bank-simulacao.png';
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+      status.textContent = 'Imagem PNG preparada para salvar.';
+    } catch(error) {
+      status.textContent =
+        'Não foi possível criar a imagem neste navegador. Tente novamente no Chrome.';
+    }
+  });
+
+  document.getElementById('printButton').addEventListener('click',function(){
+    if(data) window.print();
+    else status.textContent = 'Gere o comprovante primeiro.';
+  });
+
+  document.getElementById('newButton').addEventListener('click',function(){
+    form.reset();
+    data = null;
+    receiptSection.classList.add('hidden');
+    status.textContent = '';
+    document.getElementById('recipient').focus();
+    window.scrollTo({top:0,behavior:'smooth'});
+  });
+})();
 </script>
 </body>
   </html>
+  
