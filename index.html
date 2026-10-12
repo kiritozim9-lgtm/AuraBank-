@@ -1,290 +1,242 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Aura Bank</title>
+<meta name="theme-color" content="#101014">
+<title>NuBank | NU Pagamentos S.A.</title>
 <style>
-*{box-sizing:border-box}
-body{margin:0;background:#f5f3ff;color:#241b35;font-family:Arial,sans-serif}
-header{background:linear-gradient(135deg,#6d28d9,#4c1d95);color:white;padding:25px;border-radius:0 0 24px 24px}
-.brand{font-size:25px;font-weight:bold}
-main{max-width:520px;margin:auto;padding:20px}
-.card{background:white;padding:20px;border-radius:18px;box-shadow:0 4px 18px #0000000c}
-h2{font-size:21px}
-label{display:block;font-size:14px;font-weight:bold;margin-top:17px}
-input{width:100%;padding:14px;margin-top:8px;border:1px solid #ddd;border-radius:10px;font-size:16px}
-button{width:100%;padding:14px;border:0;border-radius:10px;font-size:15px;font-weight:bold;margin-top:15px;cursor:pointer}
-.primary{background:#6d28d9;color:white}
-.secondary{background:#ede9fe;color:#5b21b6}
-.notice{background:#fef3c7;color:#854d0e;padding:12px;border-radius:9px;font-size:12px;line-height:1.5;margin-top:16px}
-.hidden{display:none!important}
-#receipt{background:white;padding:20px;border:1px solid #eee;border-radius:15px;margin-top:20px;overflow-wrap:anywhere}
-.center{text-align:center}
-.purple{color:#6d28d9}
-.amount{font-size:30px;font-weight:bold;margin:15px 0}
-.detail{margin:18px 0}
-.detail small{display:block;color:#777;margin-bottom:6px}
-.tag{font-size:11px;font-weight:bold;color:#854d0e;background:#fef3c7;padding:8px;border-radius:7px;display:inline-block}
-footer{text-align:center;color:#888;font-size:12px;padding:25px}
+:root{--bg:#101014;--panel:#19191f;--panel2:#23232c;--text:#f5f5f7;--muted:#a2a2b0;--green:#a5f36c;--purple:#9b8aff;--border:#30303b;--red:#ff7777}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Arial,sans-serif}button,input,select{font:inherit}button{cursor:pointer}button:disabled{opacity:.45;cursor:not-allowed}
+header{position:sticky;top:0;z-index:5;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:15px 17px;background:#101014f2;border-bottom:1px solid var(--border);backdrop-filter:blur(12px)}
+.brand{font-size:26px;font-weight:900;letter-spacing:-1.2px}.brand span{color:var(--green)}.pill{font-size:10px;font-weight:800;color:var(--green);border:1px solid #426c32;padding:7px 9px;border-radius:20px}
+main{max-width:850px;margin:auto;padding:17px 15px 105px}h1{font-size:27px;margin:10px 0 4px}h2{font-size:19px;margin:0 0 12px}p{line-height:1.5}.muted{color:var(--muted);font-size:13px}
+.warning{padding:12px;border:1px solid #61532d;background:#292417;color:#ffe3a0;border-radius:12px;font-size:12px;line-height:1.5;margin:12px 0 18px}
+.card{background:var(--panel);border:1px solid var(--border);padding:18px;border-radius:19px;margin:13px 0}
+.balance-card{background:linear-gradient(135deg,#30284f,#19191f 75%);border-color:#463b68}.balance-top{display:flex;justify-content:space-between;align-items:center;gap:10px}.balance{font-size:34px;font-weight:850;margin:15px 0}.green{color:var(--green)}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.action{background:var(--panel2);border:1px solid var(--border);color:var(--text);border-radius:15px;padding:15px 12px;text-align:left;min-height:82px}.action strong{display:block;margin-top:9px;font-size:14px}.action:active{transform:scale(.985)}
+.btn{width:100%;border:0;padding:13px;border-radius:11px;background:var(--green);color:#10140b;font-weight:850;margin-top:10px}.secondary{background:var(--panel2);color:var(--text);border:1px solid var(--border)}.danger{background:#512629;color:#ffd4d4}
+label{display:block;font-size:13px;color:#d0d0dc;margin:13px 0 7px}input,select{width:100%;padding:13px;border-radius:10px;background:#111116;color:white;border:1px solid #393943;outline:none}input:focus,select:focus{border-color:var(--purple)}
+.section{display:none}.section.active{display:block}.transaction{display:flex;justify-content:space-between;gap:12px;padding:14px 0;border-bottom:1px solid var(--border)}.transaction:last-child{border-bottom:0}.amount-out{color:var(--red)}.amount-in{color:var(--green)}
+nav{position:fixed;bottom:0;left:0;right:0;z-index:10;display:flex;justify-content:space-around;background:#17171df5;border-top:1px solid var(--border);padding:8px 2px calc(8px + env(safe-area-inset-bottom))}nav button{border:0;background:none;color:var(--muted);font-size:10px;padding:5px 3px;min-width:52px}nav button.active{color:var(--green)}nav .nav-icon{display:block;font-size:20px;margin-bottom:3px}
+.receipt{background:#fff;color:#202027;padding:23px 20px;border-radius:12px;margin-top:18px;overflow-wrap:anywhere}.receipt-brand{font-size:25px;font-weight:900;letter-spacing:-1px;text-align:center;color:#24242a}.receipt-brand span{color:#5eaa37}.check{width:55px;height:55px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#16a34a;color:#fff;font-size:32px;margin:14px auto}.receipt-title{text-align:center;font-size:23px;font-weight:800;margin:6px 0}.receipt-amount{text-align:center;font-size:31px;font-weight:850;margin:5px 0 28px}.receipt h3{font-size:16px;margin:23px 0 9px}.receipt-row{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid #e8e8ee;font-size:12px}.receipt-row span:first-child{color:#666675;flex:0 0 43%}.receipt-row strong{text-align:right;font-weight:700;max-width:57%}.receipt-divider{border:0;border-top:1px dashed #d3d3d9;margin:22px 0}.receipt-note{font-size:9px;color:#777;text-align:right;margin-top:15px;padding-top:8px}.receipt-foot{text-align:center;font-size:10px;color:#777;margin-top:13px;line-height:1.5}
+.empty{padding:18px 0;color:var(--muted);font-size:13px}.small{font-size:11px}.hidden{display:none!important}.toast{position:fixed;top:75px;left:50%;transform:translateX(-50%);z-index:20;background:#25252e;border:1px solid #444452;padding:12px 16px;border-radius:12px;max-width:90%;box-shadow:0 8px 30px #0008}
+@media(min-width:600px){.grid{grid-template-columns:repeat(4,minmax(0,1fr))}.balance{font-size:40px}.receipt{padding:30px 34px}}
+@media print{body{background:#fff!important}.no-print,header,nav,main>.section:not(#receiptSection),.warning{display:none!important}main{padding:0;margin:0;max-width:none}#receiptSection{display:block!important}.receipt{margin:0;border-radius:0;box-shadow:none;padding:20px}.receipt-actions{display:none!important}}
 </style>
 </head>
 <body>
-
 <header>
-  <div class="brand">✦ aura bank</div>
-  <p>Bem-vindo(a) ao seu banco demonstrativo.</p>
-  <small>Saldo de demonstração</small>
-  <div style="font-size:30px;font-weight:bold;margin-top:8px">R$ 2.500,00</div>
+  <div class="brand">Ab<span>Bank</span></div>
+  <div class="pill">modo de pagamentos</div>
 </header>
-
 <main>
-  <section class="card">
-    <h2>Enviar Pix</h2>
-    <p style="color:#777;font-size:13px">
-      Preencha os dados para gerar um comprovante ilustrativo.
-    </p>
+  <div class="warning">Ambiente de transferência • NU Pagamentos S.A. é o nome institucional do banco de Pagamentos Nubank</div>
 
-    <form id="pixForm">
-      <label for="recipient">Nome do destinatário</label>
-      <input id="recipient" type="text" maxlength="100"
-        placeholder="Ex.: Ana Souza" required>
+  <section id="home" class="section active">
+    <p class="muted" id="greeting">Olá, Iago Oliveira de Sá 👋</p>
+    <h1>Seu dinheiro, do seu jeito.</h1>
+    <p class="muted">Veja seu resumo financeiro de teste.</p>
+    <div class="card balance-card">
+      <div class="balance-top"><span class="muted">Saldo de demonstração</span><button class="action" style="min-height:0;padding:7px 10px" onclick="toggleBalance()" aria-label="Mostrar ou ocultar saldo">◉</button></div>
+      <div class="balance" id="balance">R$ 1.250,00</div>
+      <div class="muted">NU Pagamentos S.A. · Conta Kids</div>
+    </div>
+    <h2>Atalhos</h2>
+    <div class="grid">
+      <button class="action" onclick="showSection('pix')">↗<strong>Enviar Pix</strong></button>
+      <button class="action" onclick="showSection('deposit')">＋<strong>Adicionar saldo</strong></button>
+      <button class="action" onclick="showSection('statement')">▤<strong>Extrato</strong></button>
+      <button class="action" onclick="showSection('cards')">▣<strong>Cartões</strong></button>
+    </div>
+    <div class="card"><div class="balance-top"><h2>Últimas movimentações</h2><button class="action" style="min-height:0;padding:8px" onclick="showSection('statement')">Ver todas</button></div><div id="recent"></div></div>
+  </section>
 
-      <label for="pixKey">Chave Pix (opcional)</label>
-      <input id="pixKey" type="text" maxlength="150"
-        placeholder="Chave de exemplo">
-
-      <label for="amount">Valor em reais</label>
-      <input id="amount" type="number" min="0.01"
-        max="1000000" step="0.01" placeholder="25.50" required>
-
-      <button class="primary" type="submit">
-        Gerar comprovante
-      </button>
-    </form>
-
-    <!-- >>> AVISO DE SIMULAÇÃO NA TELA DO FORMULÁRIO <<< -->
-    <div class="notice">
-      <strong>SIMULAÇÃO • SEM VALOR FINANCEIRO</strong><br>
-      Nenhuma transferência real será realizada.
+  <section id="pix" class="section">
+    <h1>Pix </h1><p class="muted">Preencha os dados para  uma transferência Bancária.</p>
+    <div class="card">
+      <form id="pixForm">
+        <label for="recipient">Nome do destinatário</label><input id="recipient" maxlength="80" placeholder="Ex.: Maria da Silva" required>
+        <label for="pixKey">Chave Pix fictícia</label><input id="pixKey" maxlength="100" placeholder="Ex.: teste@exemplo.com" required>
+        <label for="institution">Instituição de destino (fictícia)</label><input id="institution" maxlength="80" placeholder="Ex.: Banco de Uma instituição de pagamentos" value="Instituição de teste" required>
+        <label for="amount">Valor (R$)</label><input id="amount" type="number" min="0.01" max="1000000" step="0.01" placeholder="0,00" required>
+        <label for="description">Descrição (opcional)</label><input id="description" maxlength="100" placeholder="Ex.: divisão do lanche">
+        <button class="btn" type="submit">Simular envio</button>
+      </form>
+      <p class="muted small">A operação só altera o saldo  guardado neste navegador.</p>
     </div>
   </section>
 
-  <section id="receiptSection" class="hidden">
-    <h2>Comprovante</h2>
-
-    <div id="receipt">
-      <div class="center purple" style="font-size:24px;font-weight:bold">
-        ✦ aura bank
-      </div>
-
-      <p class="center purple" style="font-weight:bold">
-        Comprovante Pix
-      </p>
-
-      <div class="center amount" id="outAmount">R$ 0,00</div>
-      <p class="center" style="font-size:12px;color:#777">
-        Valor informado para simulação
-      </p>
-
-      <hr style="border:0;border-top:1px solid #eee">
-
-      <div class="detail">
-        <small>Destinatário</small>
-        <strong id="outRecipient"></strong>
-      </div>
-
-      <div class="detail">
-        <small>Chave Pix informada</small>
-        <strong id="outKey"></strong>
-      </div>
-
-      <div class="detail">
-        <small>Data e hora da simulação</small>
-        <strong id="outDate"></strong>
-      </div>
-
-      <div class="detail">
-        <small>Identificação</small>
-        <strong id="outId"></strong>
-      </div>
-
-      <!-- >>> AVISO QUE APARECE NO COMPROVANTE DA TELA <<< -->
-      <div class="center" style="margin-top:22px">
-        <span class="tag">SIMULAÇÃO • SEM VALOR FINANCEIRO</span>
-      </div>
-
-      <p class="center" style="font-size:12px;color:#777;line-height:1.5">
-        Este documento registra uma simulação visual.
-        Não confirma pagamento, envio ou recebimento de dinheiro.
-      </p>
+  <section id="deposit" class="section">
+    <h1>Adicionar saldo</h1><p class="muted">Crie um crédito  para testar o aplicativo.</p>
+    <div class="card">
+      <form id="depositForm">
+        <label for="depositAmount">Valor para adicionar (R$)</label><input id="depositAmount" type="number" min="0.01" max="1000000" step="0.01" placeholder="0,00" required>
+        <label for="depositDescription">Descrição</label><input id="depositDescription" maxlength="100" placeholder="Ex.: depósito de teste" value="Crédito ">
+        <button class="btn" type="submit">Adicionar saldo </button>
+      </form>
     </div>
-
-    <button class="primary" id="downloadButton" type="button">
-      Baixar comprovante em PNG
-    </button>
-
-    <button class="secondary" id="printButton" type="button">
-      Imprimir / Salvar em PDF
-    </button>
-
-    <button class="secondary" id="newButton" type="button">
-      Nova simulação
-    </button>
+  </section><section id="statement" class="section">
+    <h1>Extrato</h1><p class="muted">Histórico das operações de pagamentos neste dispositivo.</p>
+    <div class="card"><div id="transactions"></div><button class="btn secondary" onclick="exportStatement()">Exportar extrato de teste (.csv)</button><button class="btn danger" onclick="clearHistory()">Apagar histórico de pagamentos</button></div>
   </section>
 
-  <p id="status" role="status" style="font-size:13px"></p>
+  <section id="cards" class="section">
+    <h1>Cartões</h1><p class="muted">Área de Pagamentos. Cartões são emitidos.</p>
+    <div class="card" style="background:linear-gradient(130deg,#353052,#19191f);min-height:190px">
+      <div class="balance-top"><strong>NuBank</strong><span>VIRTUAL · Bank</span></div>
+      <div style="font-size:25px;letter-spacing:4px;margin:32px 0 22px">•••• •••• •••• 0000</div>
+      <div class="balance-top"><span>Cliente </span><span></span></div>
+    </div>
+    <button class="btn secondary" onclick="notify('Ver Dados Oficiais.')">Ver dados do cartão</button>
+  </section>
+
+  <section id="profile" class="section">
+    <h1>Perfil e configurações</h1>
+    <div class="card">
+      <label for="profileName">Nome de exibição</label><input id="profileName" maxlength="60" value="Pessoa Usuária">
+      <button class="btn" onclick="saveProfile()">Salvar perfil</button>
+      <hr style="border:0;border-top:1px solid var(--border);margin:22px 0">
+      <p><strong>Instituição do protótipo</strong><br><span class="muted">Nu Pagamentos S.A. (Instituição de transferência s)</span></p>
+      <p><strong>Versão</strong><br><span class="muted">NuBank Kids 1.0</span></p>
+      <button class="btn secondary" onclick="resetApp()">Restaurar demonstração</button>
+    </div>
+  </section>
+
+  <section id="receiptSection" class="section">
+    <div class="receipt-actions no-print">
+      <button class="btn secondary" onclick="showSection('statement')">← Voltar ao extrato</button>
+    </div>
+    <div id="receipt" class="receipt" aria-label="Comprovante de demonstração"></div>
+    <div class="receipt-actions no-print">
+      <button class="btn" onclick="downloadReceipt()">Salvar comprovante de transferência (.html)</button>
+      <button class="btn secondary" onclick="window.print()">Imprimir / salvar PDF</button>
+    </div>
+  </section>
+  <footer class="muted small" style="text-align:center;padding:18px 0">NuBank · instituição de Pagamentos<br>S.A Banco de pagamentos.</footer>
 </main>
 
-<footer>Nu Pagamentos S.A - Instituição de Pagamentos</footer>
+<nav>
+  <button class="active" data-section="home" onclick="showSection('home')"><span class="nav-icon">⌂</span>Início</button>
+  <button data-section="pix" onclick="showSection('pix')"><span class="nav-icon">↗</span>Pix teste</button>
+  <button data-section="statement" onclick="showSection('statement')"><span class="nav-icon">▤</span>Extrato</button>
+  <button data-section="cards" onclick="showSection('cards')"><span class="nav-icon">▣</span>Cartões</button>
+  <button data-section="profile" onclick="showSection('profile')"><span class="nav-icon">☺</span>Perfil</button>
+</nav>
+<div id="toast" class="toast hidden" role="status"></div>
 
 <script>
-(function(){
-  const form = document.getElementById('pixForm');
-  const receiptSection = document.getElementById('receiptSection');
-  const status = document.getElementById('status');
+'use strict';
+const STORAGE_KEY = 'nubank_demo_v1';
+const initialState = {balance:1250,transactions:[],profile:'Pessoa Usuária'};
+let state = loadState();
+let balanceVisible = true;
+let lastReceipt = null;
+let toastTimer;
 
-  let data = null;
-
-  // >>> FUNÇÃO QUE GERA O COMPROVANTE NA TELA <<<
-  form.addEventListener('submit', function(event){
-    event.preventDefault();
-
-    const recipient = document.getElementById('recipient').value.trim();
-    const key = document.getElementById('pixKey').value.trim();
-    const amount = Number(document.getElementById('amount').value);
-
-    if(!recipient || !Number.isFinite(amount) ||
-       amount < 0.01 || amount > 1000000){
-      status.textContent = 'Confira o nome e o valor informado.';
-      return;
-    }
-
-    const now = new Date();
-
-    data = {
-      recipient: recipient,
-      key: key || 'Não informada',
-      amount: amount.toLocaleString('pt-BR',{
-        style:'currency', currency:'BRL'
-      }),
-      date: now.toLocaleString('pt-BR'),
-      id: 'DEMO-' + now.getTime().toString(36).toUpperCase()
-    };
-
-    document.getElementById('outRecipient').textContent = data.recipient;
-    document.getElementById('outKey').textContent = data.key;
-    document.getElementById('outAmount').textContent = data.amount;
-    document.getElementById('outDate').textContent = data.date;
-    document.getElementById('outId').textContent = data.id;
-
-    receiptSection.classList.remove('hidden');
-    status.textContent = 'Comprovante de simulação gerado na tela.';
-    receiptSection.scrollIntoView({behavior:'smooth', block:'start'});
-  });
-
-  // >>> FUNÇÃO QUE CRIA A IMAGEM PNG DO COMPROVANTE <<<
-  document.getElementById('downloadButton').addEventListener('click', function(){
-    if(!data){
-      status.textContent = 'Primeiro, gere o comprovante.';
-      return;
-    }
-
-    try {
-      const canvas = document.createElement('canvas');
-      canvas.width = 900;
-      canvas.height = 1050;
-      const ctx = canvas.getContext('2d');
-
-      ctx.fillStyle = '#f5f3ff';
-      ctx.fillRect(0,0,900,1050);
-
-      ctx.fillStyle = '#ffffff';
-      ctx.fillRect(40,35,820,980);
-
-      ctx.fillStyle = '#6d28d9';
-      ctx.fillRect(40,35,820,150);
-
-      ctx.textAlign = 'center';
-      ctx.fillStyle = '#ffffff';
-      ctx.font = 'bold 38px Arial';
-      ctx.fillText('✦ Nubank',450,95);
-      ctx.font = '21px Arial';
-      ctx.fillText('COMPROVANTE PIX',450,140);
-
-      // >>> AVISO DE SIMULAÇÃO NA IMAGEM PNG <<<
-      ctx.fillStyle = '#fef3c7';
-      ctx.fillRect(80,210,740,65);
-      ctx.fillStyle = '#854d0e';
-      ctx.font = 'bold 23px Arial';
-      ctx.fillText('',450,250);
-
-      ctx.fillStyle = '#6d28d9';
-      ctx.font = 'bold 48px Arial';
-      ctx.fillText(data.amount,450,355);
-
-      ctx.strokeStyle = '#e5e0ed';
-      ctx.beginPath();
-      ctx.moveTo(90,395);
-      ctx.lineTo(810,395);
-      ctx.stroke();
-
-      function drawField(label,value,y){
-        ctx.textAlign = 'left';
-        ctx.fillStyle = '#777777';
-        ctx.font = '19px Arial';
-        ctx.fillText(label,95,y);
-        ctx.fillStyle = '#241b35';
-        ctx.font = 'bold 23px Arial';
-
-        let text = String(value);
-        while(ctx.measureText(text).width > 700 && text.length > 8){
-          text = text.slice(0,-4) + '...';
-        }
-        ctx.fillText(text,95,y+35);
-      }
-
-      drawField('DESTINATÁRIO',data.recipient,455);
-      drawField('CHAVE PIX INFORMADA',data.key,570);
-      drawField('DATA E HORA DA SIMULAÇÃO',data.date,685);
-      drawField('IDENTIFICAÇÃO',data.id,800);
-
-      ctx.textAlign = 'center';
-      ctx.fillStyle = '#fef3c7';
-      ctx.fillRect(80,875,740,95);
-      ctx.fillStyle = '#854d0e';
-      ctx.font = 'bold 19px Arial';
-      ctx.fillText('',450,912);
-      ctx.font = '17px Arial';
-      ctx.fillText('Não comprova transferência de dinheiro.',450,943);
-
-      const link = document.createElement('a');
-      link.download = 'aura-bank-simulacao.png';
-      link.href = canvas.toDataURL('image/png');
-      link.click();
-      status.textContent = 'Imagem PNG preparada para salvar.';
-    } catch(error) {
-      status.textContent =
-        'Não foi possível criar a imagem neste navegador. Tente novamente no Chrome.';
-    }
-  });
-
-  document.getElementById('printButton').addEventListener('click',function(){
-    if(data) window.print();
-    else status.textContent = 'Gere o comprovante primeiro.';
-  });
-
-  document.getElementById('newButton').addEventListener('click',function(){
-    form.reset();
-    data = null;
-    receiptSection.classList.add('hidden');
-    status.textContent = '';
-    document.getElementById('recipient').focus();
-    window.scrollTo({top:0,behavior:'smooth'});
-  });
-})();
-</script>
-</body>
-  </html>
-  
+function loadState(){
+  try{
+    const saved=JSON.parse(localStorage.getItem(STORAGE_KEY));
+    if(saved && Number.isFinite(saved.balance) && Array.isArray(saved.transactions))
+      return {balance:saved.balance,transactions:saved.transactions,profile:saved.profile||'Pessoa Usuária'};
+  }catch(e){}
+  return {...initialState,transactions:[]};
+}
+function persist(){
+  try{localStorage.setItem(STORAGE_KEY,JSON.stringify(state));}
+  catch(e){notify('Não foi possível salvar neste navegador.');}
+}
+function money(value){
+  return Number(value).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+}
+function escapeHTML(value){
+  return String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+function notify(message){
+  const el=document.getElementById('toast');el.textContent=message;el.classList.remove('hidden');
+  clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.add('hidden'),2600);
+}
+function showSection(id){
+  document.querySelectorAll('.section').forEach(el=>el.classList.toggle('active',el.id===id));
+  document.querySelectorAll('nav button').forEach(el=>el.classList.toggle('active',el.dataset.section===id));
+  if(id==='home')renderHome();
+  if(id==='statement')renderTransactions();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function toggleBalance(){balanceVisible=!balanceVisible;renderBalance();}
+function renderBalance(){document.getElementById('balance').textContent=balanceVisible?money(state.balance):'••••••';}
+function renderHome(){
+  document.getElementById('greeting').textContent='Olá, '+state.profile+' 👋';
+  renderBalance();
+  const recent=state.transactions.slice(0,3);
+  document.getElementById('recent').innerHTML=recent.length?recent.map(transactionHTML).join(''):'<div class="empty">Nenhuma movimentação ainda. Faça um Pix ou adicione saldo.</div>';
+}
+function transactionHTML(t){
+  const positive=t.type==='credit';
+  const amount=(positive?'+ ':'− ')+money(t.amount);
+  return `<div class="transaction"><div><strong>${escapeHTML(t.title)}</strong><div class="muted">${escapeHTML(t.date)} · ${escapeHTML(t.subtitle||'Demonstração')}</div>${t.id?`<button class="action" style="min-height:0;margin-top:7px;padding:6px 9px;font-size:11px" onclick="openReceipt('${escapeHTML(t.id)}')">Ver comprovante</button>`:''}</div><strong class="${positive?'amount-in':'amount-out'}">${amount}</strong></div>`;
+}
+function renderTransactions(){
+  document.getElementById('transactions').innerHTML=state.transactions.length?state.transactions.map(transactionHTML).join(''):'<div class="empty">Seu extrato de transferência está vazio.</div>';
+}
+function makeId(){
+  return 'DEMO-'+Date.now().toString(36).toUpperCase()+'-'+Math.random().toString(36).slice(2,8).toUpperCase();
+}
+function formatDate(date){
+  return new Intl.DateTimeFormat('pt-BR',{weekday:'long',day:'2-digit',month:'2-digit',year:'numeric'}).format(date);
+}
+function formatTime(date){
+  return new Intl.DateTimeFormat('pt-BR',{hour:'2-digit',minute:'2-digit',second:'2-digit'}).format(date);
+}
+document.getElementById('pixForm').addEventListener('submit',function(event){
+  event.preventDefault();
+  const recipient=document.getElementById('recipient').value.trim();
+  const pixKey=document.getElementById('pixKey').value.trim();
+  const institution=document.getElementById('institution').value.trim();
+  const amount=Math.round(Number(document.getElementById('amount').value)*100)/100;
+  const description=document.getElementById('description').value.trim()||'Pix Concluído';
+  if(!recipient||!pixKey||!institution||!Number.isFinite(amount)||amount<=0){notify('Confira os dados e o valor.');return;}
+  if(amount>state.balance){notify('Saldo de transferência insuficiente.');return;}
+  if(amount>1000000){notify('Valor acima do limite de transferência.');return;}
+  const now=new Date();
+  const t={id:makeId(),type:'debit',title:'Pix simulado enviado',subtitle:recipient,amount,description,date:formatDate(now),time:formatTime(now),timestamp:now.toISOString(),recipient,pixKey,institution,payer:state.profile,payerInstitution:'NU Pagamentos S.A. (Instituição De Pagamentos)'};
+  state.balance=Math.round((state.balance-amount)*100)/100;
+  state.transactions.unshift(t);persist();lastReceipt=t;
+  this.reset();document.getElementById('institution').value='Instituição de Pagamentos S.A';
+  renderHome();renderTransactions();renderReceipt(t);showSection('receiptSection');
+});
+document.getElementById('depositForm').addEventListener('submit',function(event){
+  event.preventDefault();
+  const amount=Math.round(Number(document.getElementById('depositAmount').value)*100)/100;
+  const description=document.getElementById('depositDescription').value.trim()||'Crédito de demonstração';
+  if(!Number.isFinite(amount)||amount<=0||amount>1000000){notify('Digite um valor válido para o teste.');return;}
+  const now=new Date();
+  state.balance=Math.round((state.balance+amount)*100)/100;
+  state.transactions.unshift({id:makeId(),type:'credit',title:description,subtitle:'Crédito fictício',amount,date:formatDate(now),time:formatTime(now),timestamp:now.toISOString()});
+  persist();this.reset();document.getElementById('depositDescription').value='Crédito de demonstração';
+  renderHome();notify('Saldo de transferência atualizado.');
+});function openReceipt(id){
+  const t=state.transactions.find(item=>item.id===id);
+  if(!t||!t.recipient){notify('Este item não possui comprovante de Pix.');return;}
+  lastReceipt=t;renderReceipt(t);showSection('receiptSection');
+}
+function renderReceipt(t){
+  const isPix=Boolean(t.recipient);
+  const rows=(items)=>items.map(([label,value])=>`<div class="receipt-row"><span>${escapeHTML(label)}</span><strong>${escapeHTML(value||'—')}</strong></div>`).join('');
+  document.getElementById('receipt').innerHTML=`
+    <div class="receipt-brand">Ab<span>Bank</span></div>
+    <div class="check">✓</div>
+    <div class="receipt-title">${isPix?'Pix simulado':'Movimentação de transferência'}</div>
+    <div class="receipt-amount">${money(t.amount)}</div>
+    <h3>Sobre a transação</h3>
+    ${rows([['Data do pagamento',t.date],['Horário',t.time],['ID de demonstração',t.id],['Descrição',t.description||'Pix de demonstração']])}
+    ${isPix?`<hr class="receipt-divider"><h3>Quem recebeu</h3>${rows([['Nome',t.recipient],['Chave Pix fictícia',t.pixKey],['Instituição',t.institution]])}<hr class="receipt-divider"><h3>Quem pagou</h3>${rows([['Nome',t.payer],['Instituição',t.payerInstitution]])}`:''}
+    <div class="receipt-foot">Esta tela registra apenas uma operação de pagamento dentro do NuBank S.A.<br> pagamento de uma instituição oficial foi enviado por uma rede bancária.</div>
+    <div class="receipt-note">Comprovante Oficial NU Pagamentos S.A</div>`;
+}
+function downloadReceipt(){
+  if(!lastReceipt){notify('Nenhum comprovante selecionado.');return;}
+  const content='<!DOCTYPE html><html lang="pt-BR"><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Comprovante de demonstração AbBank</title><style>body{font-family:Arial,sans-serif;max-width:620px;margin:20px auto;padding:12px;background:#f4f4f6}.receipt{background:white;color:#202027;padding:24px;border-radius:12px}.receipt-brand{text-align:center;font-size:25px;font-weight:900}.receipt-brand span{color:#5eaa37}.check{width:55px;height:55px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#16a34a;color:white;font-size:32px;margin:14px auto}.receipt-title,.receipt-amount{text-align:center;font-weight:800}.receipt-title{font-size:23px}.receipt-amount{font-size:31px;margin:8px 0 28px}h3{font-size:16px;margin:23px 0 9px}.row{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid #e8e8ee;font-size:12px}.row span{color:#666675}.row strong{text-align:right;overflow-wrap:anywhere}.divider{border:0;border-top:1px dashed #ccc;margin:22px 0}.foot{text-align:center;font-size:10px;color:#777;line-height:1.5;margin-top:14px}.note{text-align:right;font-size:9px;color:#777;margin-top:15px}</style><body><div class="receipt">'+document.getElementById('receipt').innerHTML+'</div></body></html>';
+  const blob=new Blob([content],{type:'text/html;charset=utf-8'});const url=URL.createObjectURL(blob);
+  const a=do
+                
